@@ -10,6 +10,8 @@ Setup:
    [PROD] "fastapi run"
 
 Format for .env:
+```
 API_ID="..."
 API_HASH="..."
 PHONE="+62..."
+```
