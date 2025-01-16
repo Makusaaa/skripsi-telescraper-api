@@ -6,5 +6,10 @@ Setup:
 3. Install Requirements
    "pip install -r requirements.txt"
 4. Run API
-   [DEV] "fastapi dev main.py"
-   [PROD] "fastapi run main.py"
+   [DEV] "fastapi dev"
+   [PROD] "fastapi run"
+
+Format for .env:
+API_ID="..."
+API_HASH="..."
+PHONE="+62..."

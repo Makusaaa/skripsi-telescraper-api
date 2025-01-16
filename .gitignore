@@ -1,4 +1,5 @@
 .venv
 .testing
 __pycache__
-bot.session
+*.session*
+.env
