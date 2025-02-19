@@ -1,0 +1,4 @@
+.env
+.session
+.downloads
+node_modules
