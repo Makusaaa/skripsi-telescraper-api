@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { TelegramClient } from "telegram";
+import { parseFile } from '../../services/parsingService';
 
 const downloadsDirectory = './.downloads';
 
@@ -13,9 +14,12 @@ export default {
         {
             if (!fs.existsSync(downloadsDirectory))
                 fs.mkdirSync(downloadsDirectory);
-            message.downloadMedia({
-                outputFile: `./.downloads/${channelId ?? userId}-${id}-${message.media.document.attributes[0].fileName}`
+            const filePath = `${downloadsDirectory}/${channelId ?? userId}-${id}-${message.media.document.attributes[0].fileName}`
+            await message.downloadMedia({
+                outputFile: filePath
             })
+            const data = await parseFile(filePath);
+            console.log(data)
         }
     }
 };
