@@ -23,9 +23,8 @@ export default {
             })
             console.log(`downloading done`)
             console.log(`parsing ${filePath}`)
-            const data = await parseFile("./.downloads/dummy.txt");
+            const data = await parseFile(filePath);
             console.log(`parsing done`)
-            console.log(data)
             
             if(data){
                 console.log(`inserting ${data.length} credentials`)
