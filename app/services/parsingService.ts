@@ -58,6 +58,45 @@ function checkLinePattern(segments: string[], delimiter: string){
     return pattern.join(delimiter)
 }
 
+function splitStringWithExceptions(inputString: string, char: string, exceptions: number): string[][] {
+    const positions: number[] = [];
+    for (let i = 0; i < inputString.length; i++) {
+        if (inputString[i] === char) {
+            positions.push(i);
+        }
+    }
+
+    function getCombinations<T>(arr: T[], k: number): T[][] {
+        if (k === 0) return [[]];
+        if (arr.length === 0) return [];
+        
+        const [first, ...rest] = arr;
+        const withoutFirst = getCombinations(rest, k);
+        const withFirst = getCombinations(rest, k - 1).map(comb => [first, ...comb]);
+        
+        return withoutFirst.concat(withFirst);
+    }
+
+    const combinationsToExclude = getCombinations(positions, exceptions);
+    const results: string[][] = [];
+
+    for (const exclude of combinationsToExclude) {
+        const splitResult: string[] = [];
+        let lastIndex = 0;
+        
+        for (let i = 0; i < inputString.length; i++) {
+            if (positions.includes(i) && !exclude.includes(i)) {
+                splitResult.push(inputString.substring(lastIndex, i));
+                lastIndex = i + 1;
+            }
+        }
+
+        splitResult.push(inputString.substring(lastIndex));
+        results.push(splitResult);
+    }
+    return results;
+}
+
 async function getDelimiter(filepath: string){
     let delimiterCount = {};
     let delimiterMaxCount = {};
@@ -189,8 +228,36 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
                 dataList.push(data)
             }
             else if(delimiterCheckCount > delimiterCount){
-
+                console.log('---------------start----------------')
+                let tempDataList: Object[] = []
+                const splits = splitStringWithExceptions(cleanedLine,delimiter,delimiterCheckCount-delimiterCount)
+                let hasEmail = false
+                for(const segments of splits){
+                    let valid = true
+                    let data = {}
+                    for(let i=0;i<pattern.length;i++){
+                        let segment = segments[i]
+                        const entity = pattern[i]
+                        if(entity == 'URL'){
+                            segment = fixStringHttp(segment);
+                        }
+                        if(entity == 'Login' && String(segment).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+                            console.log(segment)
+                            hasEmail = true;
+                        }
+                        data[entity] = segment
+                    }
+                    if(valid){
+                        tempDataList.push(data)
+                    }
+                    if(hasEmail){
+                        tempDataList = [data];
+                        break;
+                    }
+                }
+                dataList = dataList.concat(tempDataList)
             }
+
             if(debugTesting == debugLinesReadCount && debugMode){
                 file.close();
                 return
