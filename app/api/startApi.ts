@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { client } from './../telebot/startBot'
 import { Api } from 'telegram';
+import Routes from '../routes';
 
 const app = express();
 const port = Number(process.env.APP_API_PORT);
@@ -53,6 +54,8 @@ export default async function startApi() {
     app.get('/', (_req,res) => {
         res.end("TeleScraper API 1.0")
     })
+
+    app.use
     
     app.listen(port, () => {
         console.log(`Api listening on http://localhost:${port}`)
