@@ -3,9 +3,11 @@ import { files } from "./files";
 import { users } from "./users";
 
 export const alarms = pgTable("alarms", {
-    AlarmID: serial("alarmid").primaryKey(),
-    FileID: integer("fileid").references(() => files.FileID, { onDelete: "cascade" }),
-    Status: varchar("status", { length: 255 }).notNull(),
-    AssignTo: integer("assignto").references(() => users.UserID, { onDelete: "set null" }),
-    DiscoveryDate: timestamp("discoverydate").notNull()
+    alarmid: serial("alarmid").primaryKey(),
+    fileid: integer("fileid").references(() => files.fileid, { onDelete: "cascade" }),
+    status: varchar("status", { length: 255 }).notNull(),
+    assignto: integer("assignto").references(() => users.userid, { onDelete: "set null" }),
+    discoverydate: timestamp("discoverydate").notNull()
 });
+
+export type alarmsModel = typeof alarms.$inferInsert;

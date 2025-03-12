@@ -3,11 +3,13 @@ import { credentials } from "./credentials";
 import { alarms } from "./alarms";
 
 export const credentialexposure = pgTable("credentialexposure", {
-    CredentialID: integer("credentialid").references(() => credentials.CredentialID, { onDelete: "cascade" }),
-    AlarmID: integer("alarmid").references(() => alarms.AlarmID, { onDelete: "cascade" }),
-    Status: varchar("status", { length: 255 }).notNull(),
+    credentialid: integer("credentialid").references(() => credentials.credentialid, { onDelete: "cascade" }),
+    alarmid: integer("alarmid").references(() => alarms.alarmid, { onDelete: "cascade" }),
+    status: varchar("status", { length: 255 }).notNull(),
 }, (table) => {
     return [
-        primaryKey({ columns: [table.CredentialID, table.AlarmID] })
+        primaryKey({ columns: [table.credentialid, table.alarmid] })
     ];
 });
+
+export type credentialexposureModel = typeof credentialexposure.$inferInsert;
