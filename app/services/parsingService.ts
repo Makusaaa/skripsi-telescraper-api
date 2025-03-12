@@ -10,19 +10,11 @@ const debugLinesReadCount = 100;
 
 
 function cleanStringHttp(str: string){
-    if(str.includes('https://'))
-      str = str.replace('https://','https//')
-    if(str.includes('http://'))
-      str = str.replace('http://','http//')
-    return str
+    return str.replace('https://','https//').replace('http://','http//')
 }
 
 function fixStringHttp(str: string){
-    if(str.includes('https//'))
-      str = str.replace('https//','https://')
-    if(str.includes('http//'))
-      str = str.replace('http//','http://')
-    return str
+    return str.replace('https//','https://').replace('http//','http://')
 }
 
 function getDelimiterPerLine(line: string){
@@ -219,11 +211,15 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
             const delimiterCheckCount = (cleanedLine.split(delimiter).length - 1)
             if(delimiterCheckCount == delimiterCount){
                 const segments = cleanedLine.split(delimiter)
-                const data = {}
+                let data = {}
                 for (let i = 0; i < pattern.length; i++) {
                     const entity = pattern[i]
-                    const segment = segments[i]
-                    data[entity] = segment
+                    if(entity == "URL"){
+                        data[entity] = fixStringHttp(segments[i])
+                    }
+                    else{
+                        data[entity] = segments[i]
+                    }
                 }
                 dataList.push(data)
             }
@@ -243,7 +239,7 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
                         if(entity == 'Login' && String(segment).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
                             hasEmail = true;
                         }
-                        data[entity] = segment
+                        data[entity] = fixStringHttp(segment);
                     }
                     if(valid){
                         tempDataList.push(data)
