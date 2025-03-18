@@ -1,5 +1,6 @@
 import fs from 'fs';
 import readline from 'readline';
+import { credentialsModel } from '../database/schema/credentials';
 
 const delimiterCharacters = [':','|'];
 const entityLabels = ['URL','Login','Password'];
@@ -193,10 +194,9 @@ async function getPattern(filepath: string, delimiter: string, delimiterCount: n
     return (Object.keys(patternCount).reduce((a, b) => patternCount[a] > patternCount[b] ? a : b)).split(delimiter);
 }
 
-async function parseData(filepath: string, delimiter: string, delimiterCount: number, pattern: string[]){
+async function parseData(filepath: string, delimiter: string, delimiterCount: number, pattern: string[]): Promise<credentialsModel[]>{
     let debugTesting = 0;
-
-    let dataList: Object[] = [];
+    let dataList: credentialsModel[] = [];
     await (async () => new Promise((resolve, reject) => {
         const file = readline.createInterface({
             input: fs.createReadStream(filepath),
@@ -221,10 +221,15 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
                         data[entity] = segments[i]
                     }
                 }
-                dataList.push(data)
+                const dataModel: credentialsModel = {
+                    url: data["URL"] ?? "",
+                    login: data["Login"] ?? "",
+                    password: data["Password"] ?? "",
+                }
+                dataList.push(dataModel)
             }
             else if(delimiterCheckCount > delimiterCount){
-                let tempDataList: Object[] = []
+                let tempDataList: credentialsModel[] = []
                 const splits = splitStringWithExceptions(cleanedLine,delimiter,delimiterCheckCount-delimiterCount)
                 let hasEmail = false
                 for(const segments of splits){
@@ -241,11 +246,16 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
                         }
                         data[entity] = fixStringHttp(segment);
                     }
+                    const dataModel: credentialsModel = {
+                        url: data["URL"] ?? "",
+                        login: data["Login"] ?? "",
+                        password: data["Password"] ?? "",
+                    }
                     if(valid){
-                        tempDataList.push(data)
+                        tempDataList.push(dataModel)
                     }
                     if(hasEmail){
-                        tempDataList = [data];
+                        tempDataList = [dataModel];
                         break;
                     }
                 }

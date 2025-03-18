@@ -1,7 +1,9 @@
 import fs from 'fs';
 import { TelegramClient } from "telegram";
 import { parseFile } from '../../services/parsingService';
-import { getAllCredentials, insertCredentials } from '../../services/credentialService';
+import { insertCredentials } from '../../services/credentialService';
+import { getChannelByNumber } from '../../services/channelsService';
+import { insertFile } from '../../services/filesService';
 
 const downloadsDirectory = './.downloads';
 
@@ -9,33 +11,37 @@ export default {
     event: TelegramClient.events.NewMessage,
     execute: async function (event: any) {
         const { message } = event;
-        const { peerId, id } = message;
-        const { channelId, userId } = peerId
-        const chatid = channelId?.toString() ?? userId.toString()
+        const { peerId, id: messageNumber } = message;
+        const { channelId: channelNumber, userId } = peerId
+        const chatNumber = channelNumber?.toString() ?? userId.toString()
         if(message.media)
         {
+            const channel = await getChannelByNumber(chatNumber);
+            if(!channel){
+                console.log("chat room not registered");
+                return;
+            }
             if (!fs.existsSync(downloadsDirectory))
                 fs.mkdirSync(downloadsDirectory);
-            const filePath = `${downloadsDirectory}/${chatid}-${id}-${message.media.document.attributes[0].fileName}`
-            console.log(`downloading to ${filePath}`)
+
+            const fileName = message.media.document.attributes[0].fileName
+            const filePath = `${downloadsDirectory}/${chatNumber}-${messageNumber}-${fileName}`
+            
             await message.downloadMedia({
                 outputFile: filePath
             })
-            console.log(`downloading done`)
-            console.log(`parsing ${filePath}`)
             const data = await parseFile(filePath);
-            console.log(`parsing done`)
             
             if(data){
-                console.log(`inserting ${data.length} credentials`)
-                await insertCredentials(data,chatid,id)
-                console.log(`insert done`)
+                const file = await insertFile(fileName, channel.channelid!, messageNumber);
+                await insertCredentials(data, file.fileid)
             }
 
-            fs.unlink(filePath, (err) => {
-                if (err) throw err;
-                console.log(`${filePath} was deleted`);
-            });
+            // Delete file
+            // fs.unlink(filePath, (err) => {
+            //     if (err) throw err;
+            //     console.log(`${filePath} was deleted`);
+            // });
         }
     }
 };
