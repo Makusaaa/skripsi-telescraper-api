@@ -1,9 +1,9 @@
 import fs from 'fs';
 import { TelegramClient } from "telegram";
-import { parseFile } from '../../services/parsingService';
-import { insertCredentials } from '../../services/credentialService';
-import { getChannelByNumber } from '../../services/channelsService';
-import { insertFile } from '../../services/filesService';
+import { parseFile } from '../../api/helper/parsing.helper';
+import { insertCredentials } from '../../api/helper/credentials.helper';
+import { getChannelByNumber } from '../../api/helper/channels.helper';
+import { insertFile } from '../../api/helper/files.helper';
 
 const downloadsDirectory = './.downloads';
 
