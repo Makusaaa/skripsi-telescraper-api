@@ -1,23 +1,21 @@
 import { db } from '../database/client';
-import { credentials } from '../database/schema/trcredentials'
+import { credentials, credentialsModel } from '../database/schema/credentials'
 
-export async function insertCredentials(data: Object[], chatid: string, messageid: string){
+export async function insertCredentials(data: credentialsModel[], fileid: number){
     const chunkSize = 10000;
     for (let i = 0; i < data.length; i += chunkSize) {
         const chunk = data.slice(i, i + chunkSize);
-        await db.insert(credentials).values([...chunk.map((d) => {
+        await db.insert(credentials).values([...chunk.map((d): credentialsModel  => {
             return {
-                chatid: chatid,
-                messageid: messageid,
-                url: d['URL'] ?? null,
-                login: d['Login'],
-                password: d['Password'],
+                fileid: fileid,
+                url: d.url,
+                login: d.login,
+                password: d.password,
             };
         })])
     }
 }
 
-export async function getAllCredentials(){
-    const result = await db.select().from(credentials);
-    return result;
+export async function getAllCredentials(): Promise<credentialsModel[]>{
+    return await db.select().from(credentials);
 }
