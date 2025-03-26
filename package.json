@@ -13,7 +13,7 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
-    "express": "^4.21.2",
+    "express": "^5.0.1",
     "express-list-routes": "^1.2.4",
     "http-status": "^2.1.0",
     "pg": "^8.13.3",
@@ -21,7 +21,7 @@
     "telegram": "^2.26.22"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.1",
     "@types/pg": "^8.11.11",
     "drizzle-kit": "^0.30.5",
     "tsx": "^4.19.3",

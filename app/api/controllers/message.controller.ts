@@ -1,21 +1,13 @@
 import { Request, Response } from 'express';
-
-import { client } from '../../telebot/startBot';
+import { sendMessage } from '../services/message.services';
+import { status } from "http-status";
+import { CustomError } from '../middleware/errorHandler';
 
 export const send = async (req: Request, res: Response): Promise<void> => {
     const { to, message } = req.query;
+    if (!to || !message) throw new CustomError("Both 'to' and 'message' are required", status.BAD_REQUEST)
 
-    if (!to || !message) {
-        res.status(400).json({ error: "Both 'to' and 'message' are required" });
-        return;
-    }
+    const result: any = await sendMessage(to as string, message as string);
 
-    try {
-        await client.sendMessage(to as string, { message: message as string });
-        res.json({ success: `Sent message '${message}' to ${to}` });
-    } 
-    catch (error) {
-        console.error("Error sending message:", error);
-        res.status(500).json({ error: `Failed to send message to ${to}` });
-    }
+    res.status(status.OK).json(`Sent message '${result.message}' to @${to}`)
 };
