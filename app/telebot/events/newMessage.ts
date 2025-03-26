@@ -14,6 +14,9 @@ export default {
         const { peerId, id: messageNumber } = message;
         const { channelId: channelNumber, userId } = peerId
         const chatNumber = channelNumber?.toString() ?? userId.toString()
+        
+        console.log(`[NEW MESSAGE]: (From: ${chatNumber}) ${message.message}\n`)
+
         if(message.media)
         {
             const channel = await getChannelByNumber(chatNumber);
