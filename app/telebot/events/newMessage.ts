@@ -4,6 +4,7 @@ import { parseFile } from '../../api/helper/parsing.helper';
 import { insertCredentials } from '../../api/helper/credentials.helper';
 import { getChannelByNumber } from '../../api/helper/channels.helper';
 import { insertFile } from '../../api/helper/files.helper';
+import { filesModel } from '../../api/database/schema/files';
 
 const downloadsDirectory = './.downloads';
 
@@ -36,7 +37,12 @@ export default {
             const data = await parseFile(filePath);
             
             if(data){
-                const file = await insertFile(fileName, channel.channelid!, messageNumber);
+                const newFile: filesModel = {
+                    filename: fileName,
+                    channelid: channel.channelid!,
+                    messageid: messageNumber,
+                }
+                const file = await insertFile(newFile);
                 await insertCredentials(data, file.fileid)
             }
 
