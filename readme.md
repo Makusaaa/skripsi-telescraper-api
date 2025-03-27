@@ -1,7 +1,10 @@
 Setup:
 1. npm i
 2. npm run migration
-3. npm start
+
+To Run Project:
+`npm start` or just click F5 on VSCode
+
 
 Prepare .env on root directory:
 ```
