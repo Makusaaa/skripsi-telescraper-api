@@ -1,9 +1,11 @@
+import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { defineConfig } from "drizzle-kit";
 
-export const db = drizzle("postgresql://ScraperApp:12345678@localhost/MyDB");
+if(!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not found on .env")
+export const db = drizzle(process.env.DATABASE_URL);
 
 export default defineConfig({
   dialect: 'postgresql',
-  schema: './src/db/schema'
+  schema: './app/api/database/schema/*',
 })

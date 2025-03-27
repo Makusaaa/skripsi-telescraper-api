@@ -1,9 +1,10 @@
 {
   "name": "telescraper",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "tsx ./app/index.js",
+    "start": "tsx ./app/index.ts",
+    "migration": "npx drizzle-kit generate --config ./app/api/database/client.ts && npx tsx ./app/api/database/migration.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

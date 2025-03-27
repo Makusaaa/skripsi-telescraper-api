@@ -3,6 +3,7 @@ import routing from './routes';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
+if(!process.env.APP_API_PORT) throw new Error("APP_API_PORT is not found on .env")
 const port = Number(process.env.APP_API_PORT);
 
 export default async function startApi() {

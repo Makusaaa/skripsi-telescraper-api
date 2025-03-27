@@ -5,6 +5,10 @@ import { eventHandler } from "./eventHandler";
 import { StoreSession } from "telegram/sessions";
 
 // Env variables
+if(!process.env.API_ID) throw new Error("API_ID is not found on .env")
+if(!process.env.API_HASH) throw new Error("API_HASH is not found on .env")
+if(!process.env.PHONE_NUMBER) throw new Error("PHONE_NUMBER is not found on .env")
+
 const apiId = Number(process.env.API_ID);
 const apiHash = process.env.API_HASH;
 const phoneNumber = process.env.PHONE_NUMBER;
