@@ -2,16 +2,17 @@ import { Router } from 'express';
 
 import ChannelRoute from './channel.route';
 import MessageRoute from './message.route';
+import AuthRoute from './auth.route';
 
 const router = Router();
 
 const defaultRoutes = [
     {
-        path: '/',
+        path: '/channel',
         route: ChannelRoute,
     },
     {
-        path: '/',
+        path: '/message',
         route: MessageRoute,
     }
 ];

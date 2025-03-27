@@ -4,7 +4,7 @@ import * as channelController from '../controllers/channel.controller';
 
 const router = Router();
 
-router.get('/join-channel', channelController.join);
-router.get('/leave-channel', channelController.leave);
+router.get('/join', channelController.join);
+router.get('/leave', channelController.leave);
 
 export default router;
