@@ -14,6 +14,10 @@ const defaultRoutes = [
     {
         path: '/message',
         route: MessageRoute,
+    },
+    {
+        path: '/auth',
+        route: AuthRoute,
     }
 ];
 

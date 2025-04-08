@@ -1,5 +1,6 @@
 import express from 'express';
 import routing from './routes';
+import cors from 'cors'
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -8,6 +9,7 @@ const port = Number(process.env.APP_API_PORT);
 
 export default async function startApi() {
     app.use(express.json());
+    app.use(cors())
     
     app.get('/', (_req, res) => {
         res.end("TeleScraper API 1.0");
