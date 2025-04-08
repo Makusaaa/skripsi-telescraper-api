@@ -1,5 +1,9 @@
+import 'dotenv/config';
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
+import { getUserByEmail } from "../helper/users.helper"
+import { CustomError } from "../middleware/errorHandler"
+import status from "http-status"
 
 const client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
@@ -16,17 +20,27 @@ export const login = async (req, res) => {
     const payload = ticket.getPayload();
     console.log(payload);
     if (payload?.aud != process.env.GOOGLE_CLIENT_ID)
-        return res.send("Unauthorised");
+        return res.json("Unauthorised");
+    
     const { email, name } = payload!;
-    const authToken = jwt.sign({ email, name }, process.env.SECRET);
+    const user = await getUserByEmail(email!);
 
-    res.json({ authToken });
+    if(user)
+    {
+        const { role: roles, userid: user_id } = user
+        const authToken = jwt.sign({ email, name, roles, user_id}, process.env.SECRET!);
+        res.json({ authToken });
+    }
+    else
+    {
+        throw new CustomError("Email not registered",status.UNAUTHORIZED)
+    }
 }
 
 export const access = (req, res) => {
     try {
         const authToken = req.headers.authorization;
-        const decoded = jwt.verify(authToken.slice(7), process.env.SECRET);
+        const decoded = jwt.verify(authToken.slice(7), process.env.SECRET!);
     } catch (e) {
         return res.json({ data: "NOT Authorised" });
     }
