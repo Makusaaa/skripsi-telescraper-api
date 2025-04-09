@@ -1,7 +1,7 @@
 import express from 'express';
 import routing from './routes';
 import cors from 'cors'
-import { errorHandler } from './middleware/errorHandler';
+import errorHandler from './middleware/errorHandler';
 
 const app = express();
 if(!process.env.APP_API_PORT) throw new Error("APP_API_PORT is not found on .env")

@@ -6,7 +6,7 @@ export class CustomError extends Error {
     }
 }
 
-export function errorHandler (err, req, res, next) {
+export default function errorHandler (err, req, res, next) {
     console.error(`[ERROR]: ${err.message}`)
     err.statuscode ??= 500;
     res.status(err.statuscode).json({ error: err.message });
