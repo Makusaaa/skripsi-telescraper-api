@@ -1,13 +1,8 @@
-import 'dotenv/config';
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { verifyUserLogin } from '../services/auth.services';
 import status from "http-status"
-
-const client = new OAuth2Client(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET
-);
+import config from "../constraints/config";
 
 export const login = async (req, res) => {
     console.log(req.headers.authorization);
@@ -21,7 +16,7 @@ export const login = async (req, res) => {
 export const access = (req, res) => {
     try {
         const authToken = req.headers.authorization;
-        const decoded = jwt.verify(authToken.slice(7), process.env.SECRET!);
+        const decoded = jwt.verify(authToken.slice(7), config.JWT_SECRET_KEY);
     } catch (e) {
         return res.json({ data: "NOT Authorised" });
     }

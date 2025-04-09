@@ -1,8 +1,8 @@
-import 'dotenv/config';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import { CustomError } from './errorHandler'
+import config from '../constraints/config';
 
 export default async function auth(req: Request, res: Response, next: NextFunction) {
     try
@@ -13,7 +13,7 @@ export default async function auth(req: Request, res: Response, next: NextFuncti
         }
         const token = (req.headers.authorization ?? '').replace(/Bearer /, '');
         const decodedPayload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
-        jwt.verify(token, process.env.secret!);
+        jwt.verify(token, config.JWT_SECRET_KEY);
         res.locals.user = decodedPayload;
         next();
     }

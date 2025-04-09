@@ -1,24 +1,24 @@
-import 'dotenv/config';
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { getUserByEmail } from "../helper/users.helper"
 import { CustomError } from "../middleware/errorHandler"
 import status from "http-status"
+import config from "../constraints/config";
 
 
 const client = new OAuth2Client(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET
+    config.GOOGLE_CLIENT_ID,
+    config.GOOGLE_CLIENT_SECRET
 );
 
 export const verifyUserLogin = async (tokenId: string): Promise<Object> => {
     const ticket = await client.verifyIdToken({
         idToken: tokenId.slice(7),
-        audience: process.env.GOOGLE_CLIENT_ID,
+        audience: config.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
     console.log(payload);
-    if (payload?.aud != process.env.GOOGLE_CLIENT_ID)
+    if (payload?.aud != config.GOOGLE_CLIENT_ID)
         throw new CustomError("Unauthorized Google Login",status.UNAUTHORIZED)
     
     const { email, name } = payload!;
@@ -27,7 +27,7 @@ export const verifyUserLogin = async (tokenId: string): Promise<Object> => {
     if(user)
     {
         const { role: roles, userid: user_id } = user
-        return jwt.sign({ email, name, roles, user_id}, process.env.SECRET!);
+        return jwt.sign({ email, name, roles, user_id}, config.JWT_SECRET_KEY);
     }
     else
     {

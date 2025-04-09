@@ -2,10 +2,10 @@ import express from 'express';
 import routing from './routes';
 import cors from 'cors'
 import errorHandler from './middleware/errorHandler';
+import config from './constraints/config';
 
 const app = express();
-if(!process.env.APP_API_PORT) throw new Error("APP_API_PORT is not found on .env")
-const port = Number(process.env.APP_API_PORT);
+const port = Number(config.APP_API_PORT);
 
 export default async function startApi() {
     app.use(express.json());

@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { Request, Response, NextFunction } from 'express';
 import { CustomError } from './errorHandler';
 import status from 'http-status';
