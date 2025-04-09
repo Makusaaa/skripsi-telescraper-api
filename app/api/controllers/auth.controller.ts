@@ -14,11 +14,5 @@ export const login = async (req, res) => {
 }
 
 export const access = (req, res) => {
-    try {
-        const authToken = req.headers.authorization;
-        const decoded = jwt.verify(authToken.slice(7), config.JWT_SECRET_KEY);
-    } catch (e) {
-        return res.json({ data: "NOT Authorised" });
-    }
-    res.json({ data: "Authorised" });
+    res.json("Authorised");
 }
