@@ -1,6 +1,6 @@
 Setup:
-1. npm i
-2. npm run migration
+1. `npm i`
+2. `npm run migration`
 
 To Run Project:
 `npm start` or just click F5 on VSCode
