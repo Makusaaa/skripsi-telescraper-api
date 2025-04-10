@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
 import * as authController from '../controllers/auth.controller';
-import auth from '../middleware/auth';
-import rolecheck from '../middleware/rolecheck';
+import auth from '../middleware/auth.middleware.ts';
+import rolecheck from '../middleware/role-check.middleware.ts';
 import { Roles } from '../constraints/constants.ts';
 
 const router = Router();

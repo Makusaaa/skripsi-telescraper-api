@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
-import { CustomError } from './errorHandler'
+import { CustomError } from './error-handler.middleware'
 import config from '../constraints/config';
 
 export default async function auth(req: Request, res: Response, next: NextFunction) {

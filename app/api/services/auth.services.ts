@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 import { getUserByEmail } from "../helper/users.helper"
-import { CustomError } from "../middleware/errorHandler"
+import { CustomError } from "../middleware/error-handler.middleware"
 import status from "http-status"
 import config from "../constraints/config";
 

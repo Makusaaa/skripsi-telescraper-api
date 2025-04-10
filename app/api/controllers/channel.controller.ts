@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import status from "http-status";
 import { joinChannel, leaveChannel } from '../services/channel.services';
-import { CustomError } from '../middleware/errorHandler';
+import { CustomError } from '../middleware/error-handler.middleware';
 
 export const join = async (req: Request, res: Response): Promise<void> => {
     const channelId = req.query.channelid as string;

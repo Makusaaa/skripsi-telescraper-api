@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
 import * as messageController from '../controllers/message.controller';
-import auth from '../middleware/auth';
-import rolecheck from '../middleware/rolecheck';
+import auth from '../middleware/auth.middleware';
+import rolecheck from '../middleware/role-check.middleware';
 import { Roles } from '../constraints/constants';
 
 const router = Router();

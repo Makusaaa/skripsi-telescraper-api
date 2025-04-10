@@ -1,6 +1,6 @@
 import readline from "readline";
 import { TelegramClient } from "telegram";
-import { eventHandler } from "./eventHandler";
+import { eventHandler } from "./event-handler";
 import { StoreSession } from "telegram/sessions";
 import config from "../api/constraints/config";
 

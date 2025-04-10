@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { sendMessage } from '../services/message.services';
 import { status } from "http-status";
-import { CustomError } from '../middleware/errorHandler';
+import { CustomError } from '../middleware/error-handler.middleware';
 
 export const send = async (req: Request, res: Response): Promise<void> => {
     const { to, message } = req.query;

@@ -1,5 +1,5 @@
 import { Api } from 'telegram';
-import { client } from '../../telebot/startBot';
+import { client } from '../../telebot/start-bot';
 import { getChannelByUserId, insertChannel } from '../helper/channels.helper';
 import { channelsModel } from '../database/schema/channels';
 

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { CustomError } from './errorHandler';
+import { CustomError } from './error-handler.middleware';
 import status from 'http-status';
 
 export default function rolecheck(roles: Number[]) {

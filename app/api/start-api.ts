@@ -1,7 +1,7 @@
 import express from 'express';
 import routing from './routes';
 import cors from 'cors'
-import errorHandler from './middleware/errorHandler';
+import errorHandler from './middleware/error-handler.middleware';
 import config from './constraints/config';
 
 const app = express();
