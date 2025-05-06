@@ -21,12 +21,12 @@ export const verifyUserLogin = async (tokenId: string): Promise<Object> => {
     if (payload?.aud != config.GOOGLE_CLIENT_ID)
         throw new CustomError("Unauthorized Google Login",status.UNAUTHORIZED)
     
-    const { email, name } = payload!;
+    const { email } = payload!;
     const user = await getUserByEmail(email!);
 
     if(user)
     {
-        const { role: roles, userid: user_id } = user
+        const { role: roles, userid: user_id, email: email, fullname: name} = user
         return jwt.sign({ email, name, roles, user_id}, config.JWT_SECRET_KEY);
     }
     else
