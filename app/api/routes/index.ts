@@ -3,6 +3,7 @@ import { Router } from 'express';
 import ChannelRoute from './channel.route';
 import MessageRoute from './message.route';
 import AuthRoute from './auth.route';
+import CompanyRoute from './company.route';
 
 const router = Router();
 
@@ -18,7 +19,11 @@ const defaultRoutes = [
     {
         path: '/auth',
         route: AuthRoute,
-    }
+    },
+    {
+        path: '/company',
+        route: CompanyRoute,
+    },
 ];
 
 defaultRoutes.forEach((route) => {
