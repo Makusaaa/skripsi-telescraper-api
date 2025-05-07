@@ -24,24 +24,33 @@ export const registerUserService = async (input: { user: any, role: number, full
                 const companyCheck = await CompanyHelper.getCompanyByID(tx,input.companyid)
                 if(!companyCheck) throw new CustomError("Company is not registered!", status.BAD_REQUEST);
 
-                return await UsersHelper.insertUser(tx,{
-                    companyid: companyCheck.companyid,
-                    email: input.email,
-                    fullname: input.fullname,
-                    role: input.role,
-                } as usersModel)
+                return {
+                    ...(await UsersHelper.insertUser(tx,{
+                        companyid: companyCheck.companyid,
+                        email: input.email,
+                        fullname: input.fullname,
+                        role: input.role,
+                    } as usersModel)),
+                    companyname: companyCheck.companyname
+                }
             }
         }
         else {
             const userCheck = await UsersHelper.getUserByEmail(tx,input.user.email)
-            if(!userCheck) throw new CustomError("Failed to find your user data!", status.BAD_REQUEST);
+            if(!userCheck || !userCheck.companyid) throw new CustomError("Failed to find your user data!", status.BAD_REQUEST);
 
-            return await UsersHelper.insertUser(tx,{
-                companyid: userCheck.companyid,
-                email: input.email,
-                fullname: input.fullname,
-                role: input.role,
-            } as usersModel)
+            const companyCheck = await CompanyHelper.getCompanyByID(tx,userCheck.companyid)
+            if(!companyCheck) throw new CustomError("Failed to find your company data!", status.BAD_REQUEST);
+
+            return {
+                ...await UsersHelper.insertUser(tx,{
+                    companyid: userCheck.companyid,
+                    email: input.email,
+                    fullname: input.fullname,
+                    role: input.role,
+                } as usersModel),
+                companyname: companyCheck.companyname
+            }
         }
         throw new CustomError("Failed to register user!",status.BAD_REQUEST)
     });
