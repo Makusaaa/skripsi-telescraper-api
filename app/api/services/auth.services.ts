@@ -26,8 +26,8 @@ export const verifyUserLogin = async (tokenId: string): Promise<Object> => {
 
     if(user)
     {
-        const { role: roles, userid: user_id, email: email, fullname: name} = user
-        return jwt.sign({ email, name, roles, user_id}, config.JWT_SECRET_KEY);
+        const { role, userid: user_id, email, fullname: name, companyid} = user
+        return jwt.sign({ email, name, role, user_id, companyid}, config.JWT_SECRET_KEY);
     }
     else
     {
