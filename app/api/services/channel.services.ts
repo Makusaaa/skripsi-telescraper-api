@@ -1,7 +1,8 @@
 import { Api } from 'telegram';
 import { client } from '../../telebot/start-bot';
-import { getChannelByUserId, insertChannel } from '../helper/channels.helper';
+import * as ChannelHelper from '../helper/channels.helper';
 import { channelsModel } from '../database/schema/channels';
+import { db } from '../database/client';
 
 export const joinChannel = async (channelUserId: string): Promise<Object> => {
     const result = await client.invoke(
@@ -10,7 +11,7 @@ export const joinChannel = async (channelUserId: string): Promise<Object> => {
         })
     ) as any;
 
-    const channel = await getChannelByUserId(channelUserId);
+    const channel = await ChannelHelper.getChannelByUserId(db,channelUserId);
     if(!channel)
     {
         const { chats } = result;
@@ -19,7 +20,7 @@ export const joinChannel = async (channelUserId: string): Promise<Object> => {
             channelname: chats[0].title,
             channeluserid: chats[0].username,
         }
-        await insertChannel(newChannel);
+        await ChannelHelper.insertChannel(db,newChannel);
     }
 
     return result.chats[0];

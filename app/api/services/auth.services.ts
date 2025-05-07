@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
-import { getUserByEmail } from "../helper/users.helper"
+import * as UsersHelper from "../helper/users.helper"
 import { CustomError } from "../middleware/error-handler.middleware"
 import status from "http-status"
 import config from "../constraints/config";
+import { db } from "../database/client";
 
 
 const client = new OAuth2Client(
@@ -22,7 +23,7 @@ export const verifyUserLogin = async (tokenId: string): Promise<Object> => {
         throw new CustomError("Unauthorized Google Login",status.UNAUTHORIZED)
     
     const { email } = payload!;
-    const user = await getUserByEmail(email!);
+    const user = await UsersHelper.getUserByEmail(db, email!);
 
     if(user)
     {

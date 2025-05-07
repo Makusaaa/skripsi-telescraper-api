@@ -1,10 +1,11 @@
 import fs from 'fs';
 import { TelegramClient } from "telegram";
 import { parseFile } from '../../api/helper/parsing.helper';
-import { insertCredentials } from '../../api/helper/credentials.helper';
-import { getChannelByNumber } from '../../api/helper/channels.helper';
-import { insertFile } from '../../api/helper/files.helper';
+import * as CredentialsHelper from '../../api/helper/credentials.helper';
+import * as ChannelsHelper from '../../api/helper/channels.helper';
+import * as FilesHelper from '../../api/helper/files.helper';
 import { filesModel } from '../../api/database/schema/files';
+import { db } from '../../api/database/client';
 
 const downloadsDirectory = './.downloads';
 
@@ -20,7 +21,7 @@ export default {
 
         if(message.media)
         {
-            const channel = await getChannelByNumber(chatNumber);
+            const channel = await ChannelsHelper.getChannelByNumber(db, chatNumber);
             if(!channel){
                 console.log("chat room not registered");
                 return;
@@ -42,8 +43,8 @@ export default {
                     channelid: channel.channelid!,
                     messageid: messageNumber,
                 }
-                const file = await insertFile(newFile);
-                await insertCredentials(data, file.fileid)
+                const file = await FilesHelper.insertFile(db, newFile);
+                await CredentialsHelper.insertCredentials(db, data, file.fileid)
             }
 
             // Delete file

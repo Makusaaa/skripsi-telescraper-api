@@ -1,6 +1,6 @@
-import { db } from '../database/client';
+import { DB } from '../database/client';
 import { files, filesModel } from '../database/schema/files'
 
-export async function insertFile(newFile: filesModel){
+export async function insertFile(db: DB, newFile: filesModel){
     return (await db.insert(files).values(newFile).returning())[0];
 }

@@ -1,7 +1,7 @@
-import { db } from '../database/client';
+import { DB } from '../database/client';
 import { credentials, credentialsModel } from '../database/schema/credentials'
 
-export async function insertCredentials(data: credentialsModel[], fileid: number){
+export async function insertCredentials(db: DB, data: credentialsModel[], fileid: number){
     const chunkSize = 10000;
     for (let i = 0; i < data.length; i += chunkSize) {
         const chunk = data.slice(i, i + chunkSize);
@@ -16,6 +16,6 @@ export async function insertCredentials(data: credentialsModel[], fileid: number
     }
 }
 
-export async function getAllCredentials(): Promise<credentialsModel[]>{
+export async function getAllCredentials(db: DB): Promise<credentialsModel[]>{
     return await db.select().from(credentials);
 }

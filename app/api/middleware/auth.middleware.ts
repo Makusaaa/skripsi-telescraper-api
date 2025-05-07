@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import { CustomError } from './error-handler.middleware'
 import config from '../constraints/config';
-import { getUserByEmail } from '../helper/users.helper';
+import * as UsersHelper from '../helper/users.helper';
+import { db } from '../database/client';
 
 export default async function auth(req: Request, res: Response, next: NextFunction) {
     try
@@ -16,7 +17,7 @@ export default async function auth(req: Request, res: Response, next: NextFuncti
         const decodedPayload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
         jwt.verify(token, config.JWT_SECRET_KEY);
         res.locals.user = decodedPayload;
-        const checkUser = await getUserByEmail(res.locals.user.email)
+        const checkUser = await UsersHelper.getUserByEmail(db, res.locals.user.email)
         if(!checkUser) next(new CustomError('User not registered',httpStatus.UNAUTHORIZED));
         next();
     }
