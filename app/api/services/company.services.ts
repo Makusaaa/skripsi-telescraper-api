@@ -8,7 +8,7 @@ import { Roles } from '../constraints/constants.ts';
 import { db } from "../database/client.ts";
 
 export const getCompanyListService = async (): Promise<Object[]> => {
-    return CompanyHelper.getCompanyList(db);
+    return await CompanyHelper.getCompanyListWithCompanyAdmin(db);
 };
 
 export const getCompanyByIDService = async (companyId: number): Promise<Object> => {

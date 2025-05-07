@@ -18,7 +18,6 @@ export const verifyUserLogin = async (tokenId: string): Promise<Object> => {
         audience: config.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    console.log(payload);
     if (payload?.aud != config.GOOGLE_CLIENT_ID)
         throw new CustomError("Unauthorized Google Login",status.UNAUTHORIZED)
     
