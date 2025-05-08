@@ -6,6 +6,13 @@ import { usersModel } from "../database/schema/users.ts";
 import { Roles } from '../constraints/constants.ts';
 import { db } from "../database/client.ts";
 
+export const getUserListService = async (user: any): Promise<Object> => {
+    if(user.role == Roles.SuperAdmin){
+        return await UsersHelper.getUserList(db);
+    }
+    return await UsersHelper.getUserListByCompany(db, user.companyid);
+}
+
 export const registerUserService = async (input: { user: any, role: number, fullname: string, email: string, companyid?: number }): Promise<Object> => {
     const userCheck = await UsersHelper.getUserByEmail(db,input.email)
     if(userCheck) throw new CustomError("User already registered!", status.BAD_REQUEST);
