@@ -5,6 +5,7 @@ import MessageRoute from './message.route';
 import AuthRoute from './auth.route';
 import CompanyRoute from './company.route';
 import UsersRoute from './users.route';
+import KeywordsRoute from './keywords.route';
 
 const router = Router();
 
@@ -28,6 +29,10 @@ const defaultRoutes = [
     {
         path: '/users',
         route: UsersRoute,
+    },
+    {
+        path: '/keywords',
+        route: KeywordsRoute,
     },
 ];
 
