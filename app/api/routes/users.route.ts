@@ -9,5 +9,6 @@ const router = Router();
 
 router.get('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin]), usersController.getUserListController);
 router.post('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin]), usersController.registerUserController);
+router.delete('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin]), usersController.deleteUserController);
 
 export default router;

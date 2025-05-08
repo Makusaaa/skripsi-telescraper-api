@@ -26,3 +26,13 @@ export const registerUserController = async (req: Request, res: Response): Promi
 
     res.status(status.OK).json({ data: result });
 };
+
+export const deleteUserController = async (req: Request, res: Response): Promise<void> => {
+    const { userid } = req.body;
+    if (!userid ||  isNaN(+userid)) throw new CustomError("ID Invalid!", status.BAD_REQUEST)
+    const { user } = res.locals;
+
+    const result: any = await UserService.deleteUserService(user,userid);
+    
+    res.status(status.OK).json({ data: result });
+}

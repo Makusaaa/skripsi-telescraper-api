@@ -29,6 +29,14 @@ export async function getUserByEmail(db: DB, email: string): Promise<usersModel>
     return (await db.select().from(users).where(eq(users.email, email)))[0]
 }
 
+export async function getUserByUserID(db: DB, userid: number): Promise<usersModel> {
+    return (await db.select().from(users).where(eq(users.userid, userid)))[0]
+}
+
 export async function insertUser(db: DB, newUser: usersModel): Promise<usersModel> {
     return (await db.insert(users).values(newUser).returning())[0];
+}
+
+export async function deleteUser(db: DB, userid: number): Promise<usersModel> {
+    return (await db.delete(users).where(eq(users.userid, userid)))[0];
 }

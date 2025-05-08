@@ -62,3 +62,21 @@ export const registerUserService = async (input: { user: any, role: number, full
         throw new CustomError("Failed to register user!",status.BAD_REQUEST)
     });
 };
+
+export const deleteUserService = async (user,userid): Promise<Object> => {
+    if(user.role == Roles.SuperAdmin){
+        return UsersHelper.deleteUser(db,userid)
+    }
+    const userCheck = await UsersHelper.getUserByEmail(db,user.email)
+    if(!userCheck || !userCheck.companyid) throw new CustomError("Failed to find your user data!", status.BAD_REQUEST);
+
+    if(userCheck.userid == userid) throw new CustomError("Don't delete yourself :(", status.BAD_REQUEST);
+    
+    const companyCheck = await CompanyHelper.getCompanyByID(db,userCheck.companyid)
+    if(!companyCheck) throw new CustomError("Failed to find your company data!", status.BAD_REQUEST);
+    
+    const deleteUserCheck = await UsersHelper.getUserByEmail(db,user.email)
+    if(deleteUserCheck.companyid != userCheck.companyid) throw new CustomError("This user is not from your company!", status.BAD_REQUEST);
+    
+    return UsersHelper.deleteUser(db,userid)
+}
