@@ -1,6 +1,6 @@
 import fs from 'fs';
 import readline from 'readline';
-import { credentialsModel } from '../database/schema/credentials';
+import { credentialsModel } from '../../api/database/schema/credentials';
 
 const delimiterCharacters = [':','|'];
 const entityLabels = ['URL','Login','Password'];

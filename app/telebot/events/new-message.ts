@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { TelegramClient } from "telegram";
-import { parseFile } from '../../api/helper/parsing.helper';
+import { parseFile } from '../helper/parsing.helper';
 import * as CredentialsHelper from '../../api/helper/credentials.helper';
 import * as ChannelsHelper from '../../api/helper/channels.helper';
 import * as FilesHelper from '../../api/helper/files.helper';
