@@ -79,7 +79,9 @@ export default {
                     for (const companyid in exposedCredentials) {
                         const users = exposedCredentials[companyid];
                         const newAlarm = await AlarmsHelper.insertAlarm(db,{
-                            fileid: insertedFile.fileid,
+                            filename: insertedFile.filename,
+                            channelname: channelCheck.channelname,
+                            channeluserid: channelCheck.channeluserid,
                             companyid: Number(companyid),
                             status: false,
                             assignto: null,
@@ -91,9 +93,6 @@ export default {
                             url: e.url,
                             login: e.login,
                             password: e.password,
-                            filename: insertedFile.filename,
-                            channelname: channelCheck.channelname,
-                            channeluserid: channelCheck.channeluserid,
                         } as credentialexposureModel))
 
                         for (let i = 0; i < newExposedCredentials.length; i += chunkSize) {
