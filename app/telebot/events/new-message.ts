@@ -85,6 +85,7 @@ export default {
                             companyid: Number(companyid),
                             status: false,
                             assignto: null,
+                            messageid: messageNumber,
                         } as alarmsModel)
 
                         const newExposedCredentials = users.map((e) => ({
