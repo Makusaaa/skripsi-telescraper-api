@@ -83,14 +83,14 @@ export default {
                             channelname: channelCheck.channelname,
                             channeluserid: channelCheck.channeluserid,
                             companyid: Number(companyid),
-                            status: false,
+                            status: 0,
                             assignto: null,
                             messageid: messageNumber,
                         } as alarmsModel)
 
                         const newExposedCredentials = users.map((e) => ({
                             alarmid: newAlarm.alarmid,
-                            status: false,
+                            status: 0,
                             url: e.url,
                             login: e.login,
                             password: e.password,

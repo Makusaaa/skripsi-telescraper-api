@@ -6,6 +6,7 @@ import AuthRoute from './auth.route';
 import CompanyRoute from './company.route';
 import UsersRoute from './users.route';
 import KeywordsRoute from './keywords.route';
+import AlarmsRoute from './alarms.route';
 
 const router = Router();
 
@@ -33,6 +34,10 @@ const defaultRoutes = [
     {
         path: '/keywords',
         route: KeywordsRoute,
+    },
+    {
+        path: '/alarms',
+        route: AlarmsRoute,
     },
 ];
 
