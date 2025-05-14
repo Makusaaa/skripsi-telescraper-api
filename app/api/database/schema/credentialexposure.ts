@@ -1,13 +1,13 @@
-import { pgTable, varchar, serial, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, varchar, serial, integer, boolean, text } from "drizzle-orm/pg-core";
 import { alarms } from "./alarms";
 
 export const credentialexposure = pgTable("credentialexposure", {
     credentialexposureid: serial("credentialexposureid").primaryKey(),
     alarmid: integer("alarmid").references(() => alarms.alarmid, { onDelete: "cascade" }),
     status: boolean(),
-    url: varchar("url", { length: 255 }).notNull(),
-    login: varchar("login", { length: 255 }).notNull(),
-    password: varchar("password", { length: 255 }).notNull(),
+    url: text("url").notNull(),
+    login: text("login").notNull(),
+    password: text("password").notNull(),
 });
 
 export type credentialexposureModel = typeof credentialexposure.$inferInsert;
