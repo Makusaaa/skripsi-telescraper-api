@@ -10,6 +10,17 @@ export const getUserListController = async (req: Request, res: Response): Promis
     res.status(status.OK).json({ data: result });
 }
 
+export const getUserListByCompanyIDController = async (req: Request, res: Response): Promise<void> => {
+    const { user } = res.locals;
+    const { data } = req.query;
+    const { companyid } = JSON.parse(data as string)
+    if(user.role as Roles == Roles.SuperAdmin && (!companyid || isNaN(+companyid))) throw new CustomError("Require company id!", status.BAD_REQUEST)
+
+    const result: any = await UserService.getUserListByCompanyIDService(user, companyid);
+
+    res.status(status.OK).json({ data: result });
+}
+
 export const registerUserController = async (req: Request, res: Response): Promise<void> => {
     const { fullname, email, role, companyid } = req.body;
     if (!fullname || !email || !role) throw new CustomError("Require fullname, email and role!", status.BAD_REQUEST)

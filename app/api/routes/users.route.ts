@@ -8,6 +8,7 @@ import { Roles } from '../constraints/constants';
 const router = Router();
 
 router.get('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin]), usersController.getUserListController);
+router.get('/company', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin, Roles.User]), usersController.getUserListByCompanyIDController);
 router.post('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin]), usersController.registerUserController);
 router.delete('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin]), usersController.deleteUserController);
 

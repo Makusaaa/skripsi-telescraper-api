@@ -9,5 +9,6 @@ const router = Router();
 
 router.get('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin, Roles.User]), alarmsController.getAlarmListController);
 router.patch('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin, Roles.User]), alarmsController.updateAlarmStatusController);
+router.patch('/assign', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin, Roles.User]), alarmsController.updateAlarmAssignmentController);
 
 export default router;

@@ -13,6 +13,13 @@ export const getUserListService = async (user: any): Promise<Object> => {
     return await UsersHelper.getUserListByCompany(db, user.companyid);
 }
 
+export const getUserListByCompanyIDService = async (user: any, companyid: number): Promise<Object> => {
+    if(user.role == Roles.SuperAdmin){
+        return await UsersHelper.getUserListByCompany(db, companyid);
+    }
+    return await UsersHelper.getUserListByCompany(db, user.companyid);
+}
+
 export const registerUserService = async (input: { user: any, role: number, fullname: string, email: string, companyid?: number }): Promise<Object> => {
     const userCheck = await UsersHelper.getUserByEmail(db,input.email)
     if(userCheck) throw new CustomError("User already registered!", status.BAD_REQUEST);
