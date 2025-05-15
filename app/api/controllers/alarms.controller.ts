@@ -30,3 +30,14 @@ export const updateAlarmAssignmentController = async (req: Request, res: Respons
     
     res.status(status.OK).json({ data: result });
 }
+
+export const updateAlarmNotesController = async (req: Request, res: Response): Promise<void> => {
+    const { alarmid, notes } = req.body;
+    if (alarmid == undefined || isNaN(+alarmid) || alarmid == undefined)
+        throw new CustomError("Require alarm id and notes!", status.BAD_REQUEST)
+    const { user } = res.locals;
+    
+    const result: any = await AlarmsService.updateAlarmNotesService(user, alarmid, notes);
+    
+    res.status(status.OK).json({ data: result });
+}

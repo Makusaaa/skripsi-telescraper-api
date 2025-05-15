@@ -21,6 +21,10 @@ export async function updateAlarmAssignment(db: DB, alarmid: number, assignto: n
     return (await db.update(alarms).set({ assignto: assignto }).where(eq(alarms.alarmid,alarmid)).returning())[0];
 }
 
+export async function updateAlarmNotes(db: DB, alarmid: number, notes: string){
+    return (await db.update(alarms).set({ notes: notes }).where(eq(alarms.alarmid,alarmid)).returning())[0];
+}
+
 export async function getAlarmList(db: DB): Promise<object[]> {
     const data = (await db.select({
         alarmid: alarms.alarmid,
