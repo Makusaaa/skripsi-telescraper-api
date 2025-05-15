@@ -8,5 +8,6 @@ import { Roles } from '../constraints/constants';
 const router = Router();
 
 router.get('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin, Roles.User]), alarmsController.getAlarmListController);
+router.patch('/', auth, rolecheck([Roles.SuperAdmin, Roles.CompanyAdmin, Roles.User]), alarmsController.updateAlarmStatusController);
 
 export default router;
