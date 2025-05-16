@@ -9,7 +9,7 @@ export const getChannelListController = async (req: Request, res: Response): Pro
 }
 
 export const joinChannelController = async (req: Request, res: Response): Promise<void> => {
-    const channelId = req.query.channelid as string;
+    const channelId = req.body.channelid as string;
     if (!channelId) throw new CustomError("channelid is required", status.BAD_REQUEST)
 
     const result: any = await ChannelServices.joinChannelService(channelId);
@@ -18,7 +18,7 @@ export const joinChannelController = async (req: Request, res: Response): Promis
 };
 
 export const leaveChannelController = async (req: Request, res: Response): Promise<void> => {
-    const channelId = req.query.channelid as string;
+    const channelId = req.body.channelid as string;
     if (!channelId) throw new CustomError("channelid is required", status.BAD_REQUEST)
     
     const result: any = await ChannelServices.leaveChannelService(channelId)

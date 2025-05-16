@@ -36,5 +36,8 @@ export const leaveChannelService = async (channelId: string): Promise<void> => {
             channel: channelId,
         })
     ) as any;
+    const channel = await ChannelHelper.getChannelByUserId(db,channelId);
+    if(channel)
+        await ChannelHelper.deleteChannel(db,channel.channelid!);
     return result.chats[0];
 };

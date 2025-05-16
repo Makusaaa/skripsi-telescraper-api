@@ -17,3 +17,7 @@ export async function getChannelByUserId(db: DB, channelUserId: string): Promise
 export async function insertChannel(db: DB, insertChannel: channelsModel): Promise<channelsModel> {
     return (await db.insert(channels).values(insertChannel).returning())[0];
 }
+
+export async function deleteChannel(db: DB, channelid: number): Promise<channelsModel> {
+    return (await db.delete(channels).where(eq(channels.channelid, channelid)))[0];
+}
