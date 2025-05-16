@@ -7,6 +7,7 @@ import CompanyRoute from './company.route';
 import UsersRoute from './users.route';
 import KeywordsRoute from './keywords.route';
 import AlarmsRoute from './alarms.route';
+import CredentialExposureRoute from './credentialexposure.route';
 
 const router = Router();
 
@@ -38,6 +39,10 @@ const defaultRoutes = [
     {
         path: '/alarms',
         route: AlarmsRoute,
+    },
+    {
+        path: '/credentialexposure',
+        route: CredentialExposureRoute,
     },
 ];
 
