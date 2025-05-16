@@ -32,7 +32,15 @@ export default {
                     console.log("chat room is not registered");
                     return;
                 }
-                console.log(`[NEW MESSAGE]: (From: ${chatNumber}) ${message.message}\n`)
+                if(!message.media.document){
+                    console.log("no document found");
+                    return;
+                }
+                if(message.media.document.mimeType != 'text/plain'){
+                    console.log("file is not text/plain");
+                    return;
+                }
+                console.log(`[NEW TEXT FILE]: (From: https://t.me/${channelCheck.channeluserid}/${messageNumber})\n`)
                 
                 if (!fs.existsSync(downloadsDirectory))
                     fs.mkdirSync(downloadsDirectory);
