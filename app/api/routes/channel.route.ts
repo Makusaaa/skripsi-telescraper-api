@@ -7,7 +7,8 @@ import { Roles } from '../constraints/constants';
 
 const router = Router();
 
-router.get('/join', auth, rolecheck([Roles.SuperAdmin]), channelController.join);
-router.get('/leave', auth, rolecheck([Roles.SuperAdmin]), channelController.leave);
+router.get('/', auth, rolecheck([Roles.SuperAdmin]), channelController.getChannelListController);
+router.post('/', auth, rolecheck([Roles.SuperAdmin]), channelController.joinChannelController);
+router.delete('/', auth, rolecheck([Roles.SuperAdmin]), channelController.leaveChannelController);
 
 export default router;

@@ -4,7 +4,11 @@ import * as ChannelHelper from '../helper/channels.helper';
 import { channelsModel } from '../database/schema/channels';
 import { db } from '../database/client';
 
-export const joinChannel = async (channelUserId: string): Promise<Object> => {
+export const getChannelListService = async (): Promise<Object> => {
+    return await ChannelHelper.getChannelList(db);
+}
+
+export const joinChannelService = async (channelUserId: string): Promise<Object> => {
     const result = await client.invoke(
         new Api.channels.JoinChannel({
             channel: channelUserId,
@@ -26,7 +30,7 @@ export const joinChannel = async (channelUserId: string): Promise<Object> => {
     return result.chats[0];
 };
 
-export const leaveChannel = async (channelId: string): Promise<void> => {
+export const leaveChannelService = async (channelId: string): Promise<void> => {
     const result = await client.invoke(
         new Api.channels.LeaveChannel({
             channel: channelId,

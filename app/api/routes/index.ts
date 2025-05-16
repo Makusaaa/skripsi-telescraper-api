@@ -13,7 +13,7 @@ const router = Router();
 
 const defaultRoutes = [
     {
-        path: '/channel',
+        path: '/channels',
         route: ChannelRoute,
     },
     {
