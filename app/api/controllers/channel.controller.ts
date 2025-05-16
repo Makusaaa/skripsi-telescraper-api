@@ -14,7 +14,7 @@ export const joinChannelController = async (req: Request, res: Response): Promis
 
     const result: any = await ChannelServices.joinChannelService(channelId);
 
-    res.status(status.OK).json({ message: `Joined channel ${result.title} (@${result.username})` });
+    res.status(status.OK).json({ data: result });
 };
 
 export const leaveChannelController = async (req: Request, res: Response): Promise<void> => {
@@ -23,5 +23,5 @@ export const leaveChannelController = async (req: Request, res: Response): Promi
     
     const result: any = await ChannelServices.leaveChannelService(channelId)
     
-    res.status(status.OK).json({ message: `Left channel ${result.title} (@${result.username})` });
+    res.status(status.OK).json({ data: result });
 }
