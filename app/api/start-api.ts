@@ -12,7 +12,7 @@ export default async function startApi() {
     app.use(cors())
     
     app.get('/', (_req, res) => {
-        res.end("TeleScraper API 1.0");
+        res.end("Tarsius API 1.0");
     })
 
     app.use('/', routing);
