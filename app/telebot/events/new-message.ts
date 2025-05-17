@@ -51,8 +51,11 @@ export default {
                 await message.downloadMedia({
                     outputFile: filePath
                 })
+                console.log('Successfully Downloaded File!')
+                console.log('Parsing File...')
                 const data = await parseFile(filePath);
-                
+                console.log(`Successfully Parsed File! found ${data?.length} credentials`)
+                console.log(`Processing Data...`)
                 if(data){
                     // Insert File Data
                     const newFile: filesModel = {
@@ -69,6 +72,7 @@ export default {
                     let exposedCredentials: { [key: string]: credentialsModel[] } = {};
                     const chunkSize = 10000;
                     for (let i = 0; i < data.length; i += chunkSize) {
+                        console.log(`Processing data ${i}-${i + chunkSize} [total data ${data.length}]`)
                         const chunk = data.slice(i, i + chunkSize);
                         const insertedChunk = await CredentialsHelper.insertCredentials(db, chunk, insertedFile.fileid)
                         insertedChunk.map((c) => {
@@ -84,6 +88,8 @@ export default {
                             })
                         })
                     }
+                    console.log(`Successfully Processed Data!`)
+                    console.log(`Inserting exposed credential data!`)
                     for (const companyid in exposedCredentials) {
                         const users = exposedCredentials[companyid];
                         const newAlarm = await AlarmsHelper.insertAlarm(db,{
@@ -109,7 +115,7 @@ export default {
                             await CredentialExposureHelper.insertExposedCredentials(db, chunk);
                         }
                     }
-
+                    console.log(`Successfully inserted exposed credentials data!`)
                 }
                 
                 fs.unlink(filePath, (err) => {
