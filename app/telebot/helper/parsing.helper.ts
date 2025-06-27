@@ -197,6 +197,8 @@ async function getPattern(filepath: string, delimiter: string, delimiterCount: n
 async function parseData(filepath: string, delimiter: string, delimiterCount: number, pattern: string[]): Promise<credentialsModel[]>{
     let debugTesting = 0;
     let dataList: credentialsModel[] = [];
+    var num = 0;
+
     await (async () => new Promise((resolve, reject) => {
         const file = readline.createInterface({
             input: fs.createReadStream(filepath),
@@ -205,6 +207,10 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
         });
 
         file.on('line', (line: string) => {
+            num += 1;
+            if(num % 100000 == 0){
+                console.log(`currently checking line ${num}`)
+            }
             if(line == '' || line.length == 0 || line.includes('https://t.me/'))
                 return
             const cleanedLine = cleanStringHttp(line.trim())
@@ -228,7 +234,7 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
                 }
                 dataList.push(dataModel)
             }
-            else if(delimiterCheckCount > delimiterCount){
+            else if(delimiterCheckCount > delimiterCount && delimiterCheckCount < 6 && line.length < 200){
                 let tempDataList: credentialsModel[] = []
                 const splits = splitStringWithExceptions(cleanedLine,delimiter,delimiterCheckCount-delimiterCount)
                 let hasEmail = false
@@ -278,10 +284,16 @@ async function parseData(filepath: string, delimiter: string, delimiterCount: nu
 }
 
 export async function parseFile(filepath: string){
+    console.log(`Getting Delimiter`)
     const delimiter = await getDelimiter(filepath)
+    console.log(`Successfully got Delimiter ${delimiter}`)
     if(delimiter == null)
         return null
+    console.log(`Getting Pattern`)
     const pattern = await getPattern(filepath,delimiter.mostUsedDelimiter,delimiter.averageOccurences)
+    console.log(`Successfully got Pattern ${pattern}`)
+    console.log(`Parsing Data`)
     const data = await parseData(filepath,delimiter.mostUsedDelimiter, delimiter.averageOccurences, pattern)
+    console.log(`Successfully got Data (${data.length} credentials)`)
     return data
 }
